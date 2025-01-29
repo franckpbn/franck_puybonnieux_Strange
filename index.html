@@ -10,97 +10,87 @@
       <a-assets>
         <a-asset-item id="map" src="./asset/map1.glb"></a-asset-item>
         <a-asset-item id="exitdoor" src="./asset/door1.glb"></a-asset-item>
+        <a-asset-item id="portal" src="./asset/portal_final.glb"></a-asset-item>
         <a-asset-item id="door" src="./asset/door2.glb"></a-asset-item>
-        <a-asset-item id="map-total" src="./asset/map.glb"></a-asset-item>
-        <a-asset-item id="lamp1" src="./asset/lamp1.glb"></a-asset-item>
       </a-assets>
 
-      <!-- Map -->
-      <a-entity gltf-model="#map" position="0 0 0" scale="1 1 1"></a-entity>
+      <!-- Container for all elements (scale reduced to 0.5) -->
+      <a-entity scale="0.5 0.5 0.5">
 
-      <!-- Exit Easter Egg -->
-      <a-entity
-        gltf-model="#exitdoor"
-        position="-11.9 0.530 -8.878"
-        scale="0.7 0.7 0.7"
-      ></a-entity>
+        <!-- Map -->
+        <a-entity gltf-model="#map" position="0 0 0" scale="1 1 1"></a-entity>
 
-      <!-- Doors -->
-      <a-entity
-        gltf-model="#door"
-        rotation="0 90 0"
-        position="7 0 2.8"
-        scale="1 0.98 1"
-      ></a-entity>
-      <a-entity
-        gltf-model="#door"
-        rotation="0 -90 0"
-        position="5 0 -2.8"
-        scale="1 0.98 1"
-      ></a-entity>
-      <a-entity
-        gltf-model="#door"
-        rotation="0 90 0"
-        position="1 0 2.8"
-        scale="1 0.98 1"
-      ></a-entity>
-      <a-entity
-        gltf-model="#door"
-        rotation="0 -180 0"
-        position="0.8 0 -4.7"
-        scale="1 0.98 1"
-      ></a-entity>
-      <a-entity
-        gltf-model="#door"
-        rotation="0 -90 0"
-        position="-7 0 -2.8"
-        scale="1 0.98 1"
-      ></a-entity>
-      <a-entity
-        gltf-model="#door"
-        rotation="0 0 0"
-        position="-6.8 0 4.7"
-        scale="1 0.98 1"
-      ></a-entity>
+        <!-- Exit Easter Egg -->
+        <a-entity
+          gltf-model="#exitdoor"
+          position="-11.9 0.530 -8.878"
+          scale="0.7 0.7 0.7"
+        ></a-entity>
 
-      <!-- Lamp -->
-    <a-entity geometry="primitive: box; width: 2; height: 2; depth: 0.2" material="color: #ffffff; emissive: #ffffff; emissiveIntensity: 0.2" position="0 5 0" rotation="-90 0 0" animation="property: material.emissiveIntensity; from: 0; to: 0.2; loop: true; dur: 80"></a-entity>
+        <!-- Doors -->
+        <a-entity
+          gltf-model="#door"
+          rotation="0 90 0"
+          position="7 0 2.8"
+          scale="1 0.98 1"
+        ></a-entity>
+        <a-entity
+          gltf-model="#door"
+          rotation="0 -90 0"
+          position="5 0 -2.8"
+          scale="1 0.98 1"
+        ></a-entity>
+        <a-entity
+          gltf-model="#door"
+          rotation="0 90 0"
+          position="1 0 2.8"
+          scale="1 0.98 1"
+        ></a-entity>
+        <a-entity
+          gltf-model="#door"
+          rotation="0 -180 0"
+          position="0.8 0 -4.7"
+          scale="1 0.98 1"
+        ></a-entity>
+        <a-entity
+          gltf-model="#door"
+          rotation="0 -90 0"
+          position="-7 0 -2.8"
+          scale="1 0.98 1"
+        ></a-entity>
+        <a-entity
+          gltf-model="#door"
+          rotation="0 0 0"
+          position="-6.8 0 4.7"
+          scale="1 0.98 1"
+        ></a-entity>
 
-    <a-entity geometry="primitive: box; width: 2; height: 2; depth: 0.2" material="color: #ffffff; emissive: #ffffff; emissiveIntensity: 0.2" position="-12 5 0" rotation="-90 0 0" animation="property: material.emissiveIntensity; from: 0; to: 0.2; loop: true; dur: 1000"></a-entity>
+        <!-- Portal -->
+        <a-entity
+          gltf-model="#portal"
+          rotation="0 0 0"
+          position="-15 0 0"
+          scale="1.25 1.25 1.25"
+        ></a-entity>
 
+        <!-- Lamp -->
+        <a-entity geometry="primitive: box; width: 2; height: 2; depth: 0.2" material="color: #ffffff; emissive: #ffffff; emissiveIntensity: 0.5" position="-12 5 0" rotation="-90 0 0"></a-entity>
 
-      <!-- Square Lights at position 0 0 0 -->
-      <a-light
-        type="point"
-        position="1 2 0"
-        intensity="0.1"
-        color="white"
-      ></a-light>
-      <a-light
-        type="point"
-        position="-1 2 0"
-        intensity="0.1"
-        color="white"
-      ></a-light>
-      <a-light
-        type="point"
-        position="0 2 1"
-        intensity="0.1"
-        color="white"
-      ></a-light>
-      <a-light
-        type="point"
-        position="0 2 -1"
-        intensity="0.1"
-        color="white"
-      ></a-light>
-      
+        <!-- Square Lights at position 0 0 0 -->
+        <a-light
+          type="point"
+          position="-13.5 4.9 0"
+          intensity="0.1"
+          color="white"
+        ></a-light>
+
+      </a-entity>
 
       <!-- Ambient Light -->
       <a-light type="ambient" intensity="0.02"></a-light>
 
       <!-- Camera -->
-      <a-camera position="0 3 0" look-controls="true">
+      <a-camera position="0 1.6 0" look-controls="true">
         <a-entity cursor="rayOrigin: mouse"></a-entity>
       </a-camera>
     </a-scene>
