@@ -3,10 +3,16 @@
     <title>VR Haunted Vending Hall</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.5.4/dist/aframe-extras.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-environment-component@1.3.7/dist/aframe-environment-component.min.js"></script>
+
   </head>
 
   <body style="background-color: ds">
-    <a-scene background="color: black" fog="type: exponential; color: #0B1118; density: 0.1">
+    <a-scene
+      background="color: black"
+      fog="type: exponential; color: #0B1118; density: 0.1"
+    >
       <a-assets>
         <a-asset-item id="map" src="./asset/map5.glb"></a-asset-item>
         <a-asset-item id="exitdoor" src="./asset/door1.glb"></a-asset-item>
@@ -16,7 +22,6 @@
 
       <!-- Container for all elements (scale reduced to 0.5) -->
       <a-entity scale="0.5 0.5 0.5">
-
         <!-- Map -->
         <a-entity gltf-model="#map" position="0 0 0" scale="1 1 1"></a-entity>
 
@@ -75,16 +80,21 @@
           <!-- Light inside the portal with more distance decay -->
           <a-light
             type="point"
-            position="0.2 1.3 0" 
+            position="0.2 1.3 0"
             intensity="0.2"
-            color="#ff4500"  
-            decay="2"        
-            distance="6"      
+            color="#ff4500"
+            decay="2"
+            distance="6"
           ></a-light>
         </a-entity>
 
         <!-- Lamp -->
-        <a-entity geometry="primitive: box; width: 2; height: 2; depth: 0.2" material="color: #ffffff; emissive: #ffffff; emissiveIntensity: 0.5" position="-6 5 0" rotation="-90 0 0"></a-entity>
+        <a-entity
+          geometry="primitive: box; width: 2; height: 2; depth: 0.2"
+          material="color: #ffffff; emissive: #ffffff; emissiveIntensity: 0.5"
+          position="-6 5 0"
+          rotation="-90 0 0"
+        ></a-entity>
 
         <!-- Square Lights -->
         <a-light
@@ -99,16 +109,35 @@
           intensity="0.1"
           color="white"
         ></a-light>
-
       </a-entity>
 
       <!-- Ambient Light -->
       <a-light type="ambient" intensity="0.02"></a-light>
 
-      <!-- Camera -->
-      <a-camera position="0 1.6 0" look-controls="true">
-        <a-entity cursor="rayOrigin: mouse"></a-entity>
-      </a-camera>
+      <!-- Player. -->
+      <a-entity id="rig" movement-controls="enabled: true; constrainToNavMesh: true;" dynamic-body>
+        <a-entity
+          camera
+          position="0 1.6 0"
+          look-controls="pointerLockEnabled: true"
+        ></a-entity>
+        
+        <!-- Main gauche -->
+        <a-entity
+          oculus-hand="hand: left"
+          laser-controls="hand: left"
+          raycaster="objects: .clickable"
+          line="color: red; opacity: 0.5"
+        ></a-entity>
+      
+        <!-- Main droite -->
+        <a-entity
+          oculus-hand="hand: right"
+          laser-controls="hand: right"
+          raycaster="objects: .clickable"
+          line="color: red; opacity: 0.5"
+        ></a-entity>
+      </a-entity>
     </a-scene>
   </body>
 </html>
