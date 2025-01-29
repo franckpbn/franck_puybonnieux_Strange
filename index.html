@@ -6,9 +6,9 @@
   </head>
 
   <body style="background-color: ds">
-    <a-scene background="color: black">
+    <a-scene background="color: black" fog="type: exponential; color: #0B1118; density: 0.1">
       <a-assets>
-        <a-asset-item id="map" src="./asset/map1.glb"></a-asset-item>
+        <a-asset-item id="map" src="./asset/map5.glb"></a-asset-item>
         <a-asset-item id="exitdoor" src="./asset/door1.glb"></a-asset-item>
         <a-asset-item id="portal" src="./asset/portal_final.glb"></a-asset-item>
         <a-asset-item id="door" src="./asset/door2.glb"></a-asset-item>
@@ -71,15 +71,25 @@
           rotation="0 0 0"
           position="-15 0 0"
           scale="1.25 1.25 1.25"
-        ></a-entity>
+        >
+          <!-- Light inside the portal with more distance decay -->
+          <a-light
+            type="point"
+            position="0.2 1.3 0" 
+            intensity="0.2"
+            color="#ff4500"  
+            decay="2"        
+            distance="6"      
+          ></a-light>
+        </a-entity>
 
         <!-- Lamp -->
-        <a-entity geometry="primitive: box; width: 2; height: 2; depth: 0.2" material="color: #ffffff; emissive: #ffffff; emissiveIntensity: 0.5" position="-12 5 0" rotation="-90 0 0"></a-entity>
+        <a-entity geometry="primitive: box; width: 2; height: 2; depth: 0.2" material="color: #ffffff; emissive: #ffffff; emissiveIntensity: 0.5" position="-6 5 0" rotation="-90 0 0"></a-entity>
 
         <!-- Square Lights at position 0 0 0 -->
         <a-light
           type="point"
-          position="-13.5 4.9 0"
+          position="-6 4.9 0"
           intensity="0.1"
           color="white"
         ></a-light>
