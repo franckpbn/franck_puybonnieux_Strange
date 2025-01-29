@@ -1,0 +1,2 @@
+assets/*.glb filter=lfs diff=lfs merge=lfs -text
+assets/*.glb !text !filter !merge !diff
