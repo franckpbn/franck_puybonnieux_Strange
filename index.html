@@ -5,10 +5,9 @@
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.5.4/dist/aframe-extras.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aframe-environment-component@1.3.7/dist/aframe-environment-component.min.js"></script>
-
   </head>
 
-  <body style="background-color: ds">
+  <body>
     <a-scene
       background="color: black"
       fog="type: exponential; color: #0B1118; density: 0.1"
@@ -18,12 +17,12 @@
         <a-asset-item id="exitdoor" src="./asset/door1.glb"></a-asset-item>
         <a-asset-item id="portal" src="./asset/portal_final.glb"></a-asset-item>
         <a-asset-item id="door" src="./asset/door2.glb"></a-asset-item>
+        <a-asset-item id="navmesh" src="./asset/navmesh.glb"></a-asset-item>
       </a-assets>
 
-      <!-- Container for all elements (scale reduced to 0.5) -->
-      <a-entity scale="0.5 0.5 0.5">
+      <a-entity position="0 0 -5.5" rotation="0 270 0" scale="0.6 0.6 0.6">
         <!-- Map -->
-        <a-entity gltf-model="#map" position="0 0 0" scale="1 1 1" roughness="0"></a-entity>
+        <a-entity gltf-model="#map" position="0 0 0" scale="1 1 1"></a-entity>
 
         <!-- Exit Easter Egg -->
         <a-entity
@@ -77,7 +76,6 @@
           position="-15 0 0"
           scale="1.25 1.25 1.25"
         >
-          <!-- Light inside the portal with more distance decay -->
           <a-light
             type="point"
             position="0.2 1.3 0"
@@ -95,8 +93,48 @@
           position="-6 5 0"
           rotation="-90 0 0"
         ></a-entity>
+        <a-entity
+          id="flickering-neon"
+          geometry="primitive: box; width: 2; height: 2; depth: 0.2"
+          material="color: #ffffff; emissive: #ffffff; emissiveIntensity: 0.5"
+          position="-6 5 12"
+          rotation="-90 0 0"
+        ></a-entity>
+
+        <script>
+          // Fonction pour faire clignoter aléatoirement le néon
+          const flickerNeon = () => {
+            const neon = document.querySelector("#flickering-neon");
+            if (!neon) return;
+
+            // Intensité aléatoire (0 = éteint, 1 = très lumineux)
+            const intensity = Math.random() > 0.5 ? Math.random() : 0;
+            neon.setAttribute("material", "emissiveIntensity", intensity);
+
+            // Intervalle aléatoire pour le prochain clignotement (50ms à 500ms)
+            const nextFlicker = Math.random() * 450 + 50;
+            setTimeout(flickerNeon, nextFlicker);
+          };
+
+          flickerNeon(); // Démarre le clignotement
+        </script>
+
+        <!-- Navmesh -->
+        <a-entity
+          id="navmesh"
+          gltf-model="#navmesh"
+          nav-mesh
+          visible="fasle"
+          position="0 -0.7z 0"
+        ></a-entity>
 
         <!-- Square Lights -->
+        <a-light
+          type="point"
+          position="-6 4.9 12"
+          intensity="0.1"
+          color="white"
+        ></a-light>
         <a-light
           type="point"
           position="-6 4.9 0"
@@ -114,26 +152,30 @@
       <!-- Ambient Light -->
       <a-light type="ambient" intensity="0.02"></a-light>
 
-      <!-- Player. -->
-      <a-entity id="rig" movement-controls="enabled: true; constrainToNavMesh: true;" dynamic-body>
+      <!-- Player -->
+      <a-entity
+        id="rig"
+        movement-controls="enabled: true; constrainToNavMesh: true; speed: 0.2"
+        dynamic-body
+      >
         <a-entity
           camera
           position="0 1.6 0"
           look-controls="pointerLockEnabled: true"
         ></a-entity>
-        
+
         <!-- Main gauche -->
         <a-entity
           oculus-hand="hand: left"
-          laser-controls="hand: left"
+          laser-controls="hand: right"
           raycaster="objects: .clickable"
           line="color: red; opacity: 0.5"
         ></a-entity>
-      
+
         <!-- Main droite -->
         <a-entity
           oculus-hand="hand: right"
-          laser-controls="hand: right"
+          laser-controls="hand: left"
           raycaster="objects: .clickable"
           line="color: red; opacity: 0.5"
         ></a-entity>
