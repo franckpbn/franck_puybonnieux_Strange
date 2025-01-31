@@ -18,9 +18,12 @@
         <a-asset-item id="portal" src="./asset/portal_final.glb"></a-asset-item>
         <a-asset-item id="door" src="./asset/door2.glb"></a-asset-item>
         <a-asset-item id="navmesh" src="./asset/navmesh.glb"></a-asset-item>
+        <a-asset-item id="chair1" src="./asset/chair1.glb"></a-asset-item>
+        <a-asset-item id="chair2" src="./asset/chair2.glb"></a-asset-item>
+        <a-asset-item id="guirlande" src="./asset/guirlande.glb"></a-asset-item>
       </a-assets>
 
-      <a-entity position="0 0 -5.5" rotation="0 270 0" scale="0.6 0.6 0.6">
+      <a-entity position="0 0 -5.5" rotation="0 270 0" scale="0.5 0.5 0.5">
         <!-- Map -->
         <a-entity gltf-model="#map" position="0 0 0" scale="1 1 1"></a-entity>
 
@@ -29,6 +32,43 @@
           gltf-model="#exitdoor"
           position="-11.9 0.530 -8.878"
           scale="0.7 0.7 0.7"
+        ></a-entity>
+
+        <!-- Chair -->
+        <a-entity
+          gltf-model="#chair1"
+          position="1.4 3 5.8"
+          scale="1 1 1"
+          rotation="0 0 0"
+          animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear"
+        ></a-entity>
+
+        <a-entity
+          gltf-model="#chair2"
+          position="2.5 3.8 8.8"
+          scale="1 1 1"
+          rotation="0 0 0"
+          animation="property: rotation; to: 0 360 0; loop: true; dur: 5000; easing: linear"
+        ></a-entity>
+
+        <!-- Guirlande -->
+        <a-entity
+          gltf-model="#guirlande"
+          position="2.7 3 -9.6"
+          scale="0.75 0.75 0.75"
+          rotation="-90 -90 0"
+        ></a-entity>
+        <a-entity
+          gltf-model="#guirlande"
+          position="2.7 3.8 -9.6"
+          scale="0.75 0.75 0.75"
+          rotation="-90 -90 0"
+        ></a-entity>
+        <a-entity
+          gltf-model="#guirlande"
+          position="2.7 2.2 -9.6"
+          scale="0.75 0.75 0.75"
+          rotation="-90 -90 0"
         ></a-entity>
 
         <!-- Doors -->
@@ -88,28 +128,44 @@
 
         <!-- Lamp -->
         <a-entity
+          id="flickering-neon"
           geometry="primitive: box; width: 2; height: 2; depth: 0.2"
           material="color: #ffffff; emissive: #ffffff; emissiveIntensity: 0.5"
           position="-6 5 0"
           rotation="-90 0 0"
         ></a-entity>
+
+        <!-- Néon clignotant avec lumière -->
         <a-entity
           id="flickering-neon"
           geometry="primitive: box; width: 2; height: 2; depth: 0.2"
           material="color: #ffffff; emissive: #ffffff; emissiveIntensity: 0.5"
           position="-6 5 12"
           rotation="-90 0 0"
-        ></a-entity>
+        >
+          <a-light
+            id="neon-light"
+            type="point"
+            position="0 1.3 0"
+            intensity="0.5"
+            color="#ffffff"
+            distance="5"
+          ></a-light>
+        </a-entity>
 
         <script>
-          // Fonction pour faire clignoter aléatoirement le néon
+          // Fonction pour faire clignoter aléatoirement le néon et la lumière
           const flickerNeon = () => {
             const neon = document.querySelector("#flickering-neon");
-            if (!neon) return;
+            const neonLight = document.querySelector("#neon-light");
+            if (!neon || !neonLight) return;
 
             // Intensité aléatoire (0 = éteint, 1 = très lumineux)
             const intensity = Math.random() > 0.5 ? Math.random() : 0;
+
+            // Appliquer l'intensité au néon et à la lumière
             neon.setAttribute("material", "emissiveIntensity", intensity);
+            neonLight.setAttribute("intensity", intensity * 2);
 
             // Intervalle aléatoire pour le prochain clignotement (50ms à 500ms)
             const nextFlicker = Math.random() * 450 + 50;
@@ -124,8 +180,8 @@
           id="navmesh"
           gltf-model="#navmesh"
           nav-mesh
-          visible="fasle"
-          position="0 -0.7z 0"
+          visible="false"
+          position="0 -0.7 0"
         ></a-entity>
 
         <!-- Square Lights -->
