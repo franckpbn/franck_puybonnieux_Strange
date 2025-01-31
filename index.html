@@ -57,6 +57,7 @@
           position="2.7 3 -9.6"
           scale="0.75 0.75 0.75"
           rotation="-90 -90 0"
+          class="clickable"
         ></a-entity>
         <a-entity
           gltf-model="#guirlande"
@@ -152,6 +153,32 @@
             distance="5"
           ></a-light>
         </a-entity>
+
+        <!-- Texte à afficher -->
+        <a-entity
+          id="message"
+          position="0 3 -5"
+          text="value: Cliquez sur une guirlande pour voir un message; color: white; align: center; width: 6"
+          visible="false"
+        ></a-entity>
+
+        <script>
+          // Fonction pour afficher le message quand une guirlande est cliquée
+          const guirlandes = document.querySelectorAll(".clickable");
+          const message = document.querySelector("#message");
+
+          guirlandes.forEach((guirlande) => {
+            guirlande.addEventListener("click", function () {
+              // Modifier le texte du message ici
+              message.setAttribute(
+                "text",
+                "value",
+                "Vous avez cliqué sur une guirlande!"
+              );
+              message.setAttribute("visible", true); // Rendre le message visible
+            });
+          });
+        </script>
 
         <script>
           // Fonction pour faire clignoter aléatoirement le néon et la lumière
