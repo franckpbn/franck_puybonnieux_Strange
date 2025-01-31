@@ -8,6 +8,10 @@
   </head>
 
   <body>
+    <!-- Musique de Stranger Things -->
+    <audio id="stranger-things-music" autoplay loop>
+      <source src="asset/Kids.mp3" type="audio/mp3" />
+    </audio>
     <a-scene
       background="color: black"
       fog="type: exponential; color: #0B1118; density: 0.1"
@@ -23,7 +27,7 @@
         <a-asset-item id="guirlande" src="./asset/guirlande.glb"></a-asset-item>
       </a-assets>
 
-      <a-entity position="0 0 -5.5" rotation="0 270 0" scale="0.5 0.5 0.5">
+      <a-entity position="0 0 -4.5" rotation="0 270 0" scale="0.5 0.5 0.5">
         <!-- Map -->
         <a-entity gltf-model="#map" position="0 0 0" scale="1 1 1"></a-entity>
 
@@ -57,8 +61,32 @@
           position="2.7 3 -9.6"
           scale="0.75 0.75 0.75"
           rotation="-90 -90 0"
-          class="clickable"
         ></a-entity>
+
+        <a-box
+          id="interactive-box"
+          position="2.7 3 -9.6"
+          scale="0.75 2 5"
+          visible="false"
+          class="clickable"
+          event-set__click="_event: click; _target: #text-area; visible: true"
+        ></a-box>
+
+        <!-- Zone de texte cachée -->
+        <a-entity
+          id="text-area"
+          visible="false"
+          position=" 2.5 4.35 -11.7"
+          rotation="0 -90 0"
+        >
+          <a-text
+            value="C'est ici que la communication 
+            vers l'autre monde se fait..."
+            color="white"
+            width="6"
+            position="0 0 0"
+          ></a-text>
+        </a-entity>
         <a-entity
           gltf-model="#guirlande"
           position="2.7 3.8 -9.6"
@@ -154,54 +182,6 @@
           ></a-light>
         </a-entity>
 
-        <!-- Texte à afficher -->
-        <a-entity
-          id="message"
-          position="0 3 -5"
-          text="value: Cliquez sur une guirlande pour voir un message; color: white; align: center; width: 6"
-          visible="false"
-        ></a-entity>
-
-        <script>
-          // Fonction pour afficher le message quand une guirlande est cliquée
-          const guirlandes = document.querySelectorAll(".clickable");
-          const message = document.querySelector("#message");
-
-          guirlandes.forEach((guirlande) => {
-            guirlande.addEventListener("click", function () {
-              // Modifier le texte du message ici
-              message.setAttribute(
-                "text",
-                "value",
-                "Vous avez cliqué sur une guirlande!"
-              );
-              message.setAttribute("visible", true); // Rendre le message visible
-            });
-          });
-        </script>
-
-        <script>
-          // Fonction pour faire clignoter aléatoirement le néon et la lumière
-          const flickerNeon = () => {
-            const neon = document.querySelector("#flickering-neon");
-            const neonLight = document.querySelector("#neon-light");
-            if (!neon || !neonLight) return;
-
-            // Intensité aléatoire (0 = éteint, 1 = très lumineux)
-            const intensity = Math.random() > 0.5 ? Math.random() : 0;
-
-            // Appliquer l'intensité au néon et à la lumière
-            neon.setAttribute("material", "emissiveIntensity", intensity);
-            neonLight.setAttribute("intensity", intensity * 2);
-
-            // Intervalle aléatoire pour le prochain clignotement (50ms à 500ms)
-            const nextFlicker = Math.random() * 450 + 50;
-            setTimeout(flickerNeon, nextFlicker);
-          };
-
-          flickerNeon(); // Démarre le clignotement
-        </script>
-
         <!-- Navmesh -->
         <a-entity
           id="navmesh"
@@ -245,6 +225,8 @@
           camera
           position="0 1.6 0"
           look-controls="pointerLockEnabled: true"
+        >
+          <a-cursor></a-cursor
         ></a-entity>
 
         <!-- Main gauche -->
@@ -264,5 +246,38 @@
         ></a-entity>
       </a-entity>
     </a-scene>
+
+    <script>
+      // Fonction pour faire clignoter aléatoirement le néon et la lumière
+      const flickerNeon = () => {
+        const neon = document.querySelector("#flickering-neon");
+        const neonLight = document.querySelector("#neon-light");
+        if (!neon || !neonLight) return;
+
+        // Intensité aléatoire (0 = éteint, 1 = très lumineux)
+        const intensity = Math.random() > 0.5 ? Math.random() : 0;
+
+        // Appliquer l'intensité au néon et à la lumière
+        neon.setAttribute("material", "emissiveIntensity", intensity);
+        neonLight.setAttribute("intensity", intensity * 2);
+
+        // Intervalle aléatoire pour le prochain clignotement (50ms à 500ms)
+        const nextFlicker = Math.random() * 450 + 50;
+        setTimeout(flickerNeon, nextFlicker);
+      };
+
+      flickerNeon(); // Démarre le clignotement
+
+      // Interaction de la boîte qui ouvre le texte
+      const box = document.querySelector("#interactive-box");
+      const textArea = document.querySelector("#text-area");
+
+      box.addEventListener("click", () => {
+        console.log("Clic détecté sur la boîte");
+        // Toggle la visibilité du texte
+        const isVisible = textArea.getAttribute("visible");
+        textArea.setAttribute("visible", !isVisible);
+      });
+    </script>
   </body>
 </html>
